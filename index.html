@@ -412,7 +412,7 @@ function resumeGame() { if (state === 'paused') { state = 'playing'; hideOv(); }
 function showTitle() {
   state = 'title';
   showOv('Laughing<br>Shadowz', 'CLIP THE SHADOW · CAPTURE <em>80%</em> OF THE AREA<br>DONT LET THEM TOUCH YOUR TRAIL',
-    [{ label: 'Play / Start Music', fn: startGame, primary: true },
+    [{ label: 'Play', fn: startGame, primary: true },
      { label: 'Buy Album', fn: () => window.open('https://music.apple.com/us/album/laughing-shadowz/6831981997', '_blank') }]);
 }
 
