@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Laughing Shadowz · Qix</title>
+<title>Hus Kingpin & MK Ortiz Present: Laughing Shadowz – The Game</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
@@ -19,17 +19,17 @@
     overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
   #app{
     height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;gap:8px;padding:8px;
-    --w:min(calc(100vw - 16px),calc((100vh - 118px) * 4 / 3),960px);
-    --w:min(calc(100vw - 16px),calc((100dvh - 118px) * 4 / 3),960px);
+    justify-content:center;gap:6px;padding:6px;
+    --w:min(calc(100vw - 16px),calc((100vh - 220px) * 4 / 3),960px);
+    --w:min(calc(100vw - 16px),calc((100dvh - 220px) * 4 / 3),960px);
   }
   #hud{width:var(--w);display:grid;grid-template-columns:repeat(5,1fr);gap:6px;
-    border-bottom:1px solid var(--line);padding-bottom:6px}
+    border-bottom:1px solid var(--line);padding-bottom:4px}
   #hud div{display:flex;flex-direction:column;gap:2px}
   #hud .k{font-size:clamp(8px,1.6vw,11px);letter-spacing:.22em;color:var(--dim)}
   #hud b{font-size:clamp(13px,3vw,20px);font-weight:700;letter-spacing:.05em}
   #hLives{color:var(--blood)}
-  #bar{position:relative;width:var(--w);height:5px;background:#131315;overflow:visible}
+  #bar{position:relative;width:var(--w);height:4px;background:#131315;overflow:visible}
   #bar i{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,#4b4a49,#e9e6e1)}
   #bar u{position:absolute;top:-4px;bottom:-4px;left:80%;width:2px;background:var(--blood);text-decoration:none}
   #stage{position:relative;width:var(--w);aspect-ratio:4/3;background:#000;
@@ -48,7 +48,9 @@
     padding:10px 18px;background:transparent;color:var(--dim);border:1px solid #4a4947;cursor:pointer;transition:.15s}
   #ovB button.pri{color:var(--ink);border-color:#e9e6e1}
   #ovB button:hover{color:#fff;border-color:var(--blood);box-shadow:0 0 14px rgba(138,16,22,.5)}
-  #foot{font-size:clamp(8px,1.6vw,11px);letter-spacing:.2em;color:#4f4e4c;text-transform:uppercase}
+  #foot{font-size:clamp(8px,1.5vw,10px);letter-spacing:.2em;color:#4f4e4c;text-transform:uppercase}
+  #spotify-box{width:var(--w);display:flex;justify-content:center;margin-top:2px}
+  #spotify-box iframe{border-radius:8px;border:1px solid var(--line);max-width:100%;height:80px;}
 </style>
 </head>
 <body>
@@ -66,11 +68,10 @@
     <div id="ov"><h1 id="ovT"></h1><p id="ovS"></p><div id="ovB"></div></div>
   </div>
   <div id="foot">← ↑ ↓ → / WASD · P pause · M sound · swipe on touch screen</div>
-  <input type="file" id="file" accept="image/*" hidden>
+  <div id="spotify-box">
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/64SqACPbKY2wKovDEMh2Jd?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
 </div>
-
-<!-- Elemento de audio de fondo -->
-<audio id="bgMusic" src="track.mp3" loop preload="auto"></audio>
 
 <script>
 (() => {
@@ -93,7 +94,6 @@ const $ = id => document.getElementById(id);
 const canvas = $('c');
 const ctx = canvas.getContext('2d', { alpha: false });
 const stageEl = $('stage'), ov = $('ov'), ovT = $('ovT'), ovS = $('ovS'), ovB = $('ovB');
-const musicEl = $('bgMusic');
 const mk = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
 const rng = seed => () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -177,7 +177,7 @@ function drawPlaceholder() {
   x.font = `120px ${GOTHIC}`; x.fillText('Laughing', W / 2, H * .38);
   x.font = `140px ${GOTHIC}`; x.fillText('Shadowz', W / 2, H * .62);
   x.shadowBlur = 0; x.fillStyle = '#8b8a88'; x.font = '13px "Courier New",monospace';
-  x.fillText('[ PLACEHOLDER · use "Load cover" to set image ]', W / 2, H * .92);
+  x.fillText('[ LAUGHING SHADOWZ ]', W / 2, H * .92);
 }
 
 function setCover(img) {
@@ -398,7 +398,6 @@ function gameOver() {
 function startGame() {
   level = 1; score = 0; lives = START_LIVES;
   initLevel(); state = 'playing'; hideOv();
-  if (!muted) { musicEl.play().catch(() => {}); }
 }
 function nextLevel() { level++; initLevel(); state = 'playing'; hideOv(); }
 function pauseGame() {
@@ -413,8 +412,8 @@ function resumeGame() { if (state === 'paused') { state = 'playing'; hideOv(); }
 function showTitle() {
   state = 'title';
   showOv('Laughing<br>Shadowz', 'CLIP THE SHADOW · CAPTURE <em>80%</em> OF THE AREA<br>DONT LET THEM TOUCH YOUR TRAIL',
-    [{ label: 'Play', fn: startGame, primary: true },
-     { label: 'Load Cover', fn: () => $('file').click() }]);
+    [{ label: 'Play / Start Music', fn: startGame, primary: true },
+     { label: 'Buy Album', fn: () => window.open('https://music.apple.com/us/album/laughing-shadowz/6831981997', '_blank') }]);
 }
 
 function showOv(title, sub, btns, cls) {
@@ -442,9 +441,6 @@ window.addEventListener('keydown', e => {
     if (primary) primary();
   } else if (e.code === 'KeyP' || e.code === 'Escape') {
     if (state === 'playing') pauseGame(); else if (state === 'paused') resumeGame();
-  } else if (e.code === 'KeyM') {
-    muted = !muted;
-    musicEl.muted = muted;
   }
 });
 window.addEventListener('keyup', e => { const k = KEYS[e.code]; if (k) held = held.filter(h => h !== k); });
@@ -468,11 +464,6 @@ stageEl.addEventListener('touchmove', e => {
 const endTouch = () => { touchDir = null; };
 stageEl.addEventListener('touchend', endTouch);
 stageEl.addEventListener('touchcancel', endTouch);
-
-$('file').addEventListener('change', e => {
-  const f = e.target.files && e.target.files[0]; if (!f) return;
-  loadCover(URL.createObjectURL(f)); e.target.value = '';
-});
 
 function update(dt) {
   shake = Math.max(0, shake - dt * 30); flash = Math.max(0, flash - dt * 2.2);
